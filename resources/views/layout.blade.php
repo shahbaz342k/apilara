@@ -29,11 +29,11 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-12">
             <div class="dropdown">
-                @if( !route('thank_you') )
+                {{-- @if ( ! Route::has('thank_you') ) --}}
                 <button type="button" class="btn btn-success" data-toggle="dropdown">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span>
                 </button>
-                @endif
+                {{-- @endif --}}
                 <div class="dropdown-menu">
                     <div class="row total-header-section">
                         @php $total = 0 @endphp

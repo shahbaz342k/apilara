@@ -24,8 +24,11 @@
                     <tbody>
                         @foreach( getAllUserOrders() as $order )
                             <tr>
+                                @php 
+                                    $order->status == 'pending';
+                                @endphp
                                 <td class="border px-4 py-2">{{ $order->order_number }}</td>
-                                <td class="border px-4 py-2">{{ $order->status }}</td>
+                                <td class="border px-4 py-2 danger">{{ $order->status }}</td>
                                 <td class="border px-4 py-2">{{ $order->grand_total }}</td>
                                 <td class="border px-4 py-2">{{ $order->created_at }}</td>
                                 <td class="border px-4 py-2">
