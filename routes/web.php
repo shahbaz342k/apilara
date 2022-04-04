@@ -2,8 +2,7 @@
 
 use App\Http\Controllers\WpApi;
 use Illuminate\Support\Facades\Route;
-
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,7 +32,20 @@ Route::post('/dashboard/order-update/{orderid}',[WpApi::class, 'admin_order_upda
 Route::get('/dashboard/oders',[WpApi::class, 'admin_orders'])->name('admin_orders');
 Route::get('/dashboard/users',[WpApi::class, 'admin_users'])->name('admin_users');
 
+Route::get('/markAsRead/{id}',function(){
+    $notificationId = request('id');
 
+    $userUnreadNotification = auth()->user()
+                                ->unreadNotifications
+                                ->where('id', $notificationId)
+                                ->first();
+
+    if($userUnreadNotification) {
+        $userUnreadNotification->markAsRead();
+    }
+
+    // auth()->user()->unreadNotifications->markAsRead();
+});
 
 Route::middleware([
     'auth:sanctum',

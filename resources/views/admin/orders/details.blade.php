@@ -95,11 +95,16 @@ $role = get_user_role();
                 status: select_value
             },
             success: function (response) {
-               // window.location.href= response;
+                if( response == true ){
+                    window.location.href = '{{route('admin_orders')}}'
+                }
+               
                // console.log(response)
             }
         });
     });
+
+    
 </script>
 
 @endif

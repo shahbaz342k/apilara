@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\OrderUpdateNotification;
 
 class WpApi extends Controller{
 
@@ -140,8 +141,22 @@ class WpApi extends Controller{
         //return $request->all();
         if( $request->orderid && $request->status ){
             // return $request->orderid;
-            Order::where('id',$request->orderid)->update(['status'=>$request->status]);
-            return redirect('dashboard/oders')->with('success', 'Order Updated');
+            $order = Order::where('id',$request->orderid)->update(['status'=>$request->status]);
+            // return session()->flash('message', 'Order Updated');
+
+            
+            if( $order ){
+                $orders_id = Order::where('id',$order_id)->first();
+                $user = User::where('id',$orders_id->user_id)->first();
+
+                $user->notify( new OrderUpdateNotification( Order::where('id',$order_id)->first() ) );
+                \Session::flash('success', __('Order Updated')); 
+                return true;
+            }else{
+                \Session::flash('success', __('Order not updated'));
+                return false;
+            }
+            // return redirect('dashboard/oders')->with('message', 'Order Updated');
         }
         
     }

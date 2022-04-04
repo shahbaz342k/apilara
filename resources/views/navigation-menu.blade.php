@@ -1,3 +1,5 @@
+
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,6 +26,53 @@
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                
+
+
+                
+
+                 
+                    @php 
+
+                     $role = get_user_role();
+
+                    @endphp
+                    @if( $role == 'customer')
+                        <x-jet-dropdown align="right" width="60">
+                            <x-slot name="trigger">
+                                <span class="inline-flex rounded-md">
+                                           <button id="dropdownDividerButton" data-dropdown-toggle="dropdownDividerss" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Notifications <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg> <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+                            {{ count(auth()->user()->unreadNotifications) }}
+                          </span></button>
+                                </span>
+                            </x-slot>
+
+                            <x-slot name="content">
+                               
+                                 
+                                    @foreach(auth()->user()->unreadNotifications as $key => $notification)
+                                        
+                                            {{-- {{$notification->id}} --}}
+                                            {{-- <?php echo $key; ?> --}}
+                                            @foreach( $notification->data as $ntdata)
+                                                <div style="display: block;width: 100%;padding: 10px 20px;">
+                                                    <a onclick="markNotificationAsRead('{{$notification->id}}')" href="{{route('order_details',[$ntdata['order_id']])}}">
+                                                        Order ID #{{$ntdata['order_id']}} status change to
+                                                        {{$ntdata['status']}} By - Admin
+                                                    </a>
+                                                </div>
+                                                <hr>
+                                            @endforeach
+                                        
+
+                                    @endforeach
+                                 
+                                    
+
+                                   
+                            </x-slot>
+                        </x-jet-dropdown>
+                @endif
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">
@@ -218,3 +267,11 @@
         </div>
     </div>
 </nav>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function markNotificationAsRead(id){
+       
+        jQuery.get('/markAsRead/'+id);
+        alert('yss')
+    }
+</script>
