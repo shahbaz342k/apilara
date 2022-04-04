@@ -1,21 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Orders') }}
         </h2>
     </x-slot>
 
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             @php 
 
              $role = get_user_role();
-            // $role = 'admin';
-             // $roles = Auth::user()->roles->pluck('name');
-             // var_dump($roles);
+
             @endphp
-            @if( $role == 'admin' )
+            @if( $role == 'admin')
                 <div class="p-10">
 
                   <div class="dropdown inline-block relative">
@@ -28,35 +26,30 @@
                   </div>
 
                 </div>
-            @elseif( $role == 'customer' )
+            </div>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     {{-- <x-jet-welcome /> --}}
-                    <h2 class="px-4 py-2 font-semibold text-xl text-black-800 text-center leading-tight">My Orders</h2>
+                    <h2 class="px-4 py-2 font-semibold text-xl text-black-800 text-center leading-tight">All Users</h2>
                    {{--  {{ getAllUserOrders() }} --}}
                     <table class="table-fixed w-full">
                         <thead>
                             <tr>
-                                <th class="px-4 py-2 w-20">#Order Numer</th >
-                                <th class="px-4 py-2">Status</th >
-                                <th class="px-4 py-2">Total</th >
+                                <th class="px-4 py-2 w-20">#ID</th >
+                                <th class="px-4 py-2">Name</th >
+                                <th class="px-4 py-2">Email</th >
                                 <th class="px-4 py-2">Created At</th >
-                                <th class="px-4 py-2">More</th >
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach( getAllUserOrders() as $order )
+                            @foreach( $users as $user )
                                 <tr>
-                                    @php 
-                                        $order->status == 'pending';
-                                    @endphp
-                                    <td class="border px-4 py-2">{{ $order->order_number }}</td>
-                                    <td class="border px-4 py-2 danger">{{ $order->status }}</td>
-                                    <td class="border px-4 py-2">{{ $order->grand_total }}</td>
-                                    <td class="border px-4 py-2">{{ $order->created_at }}</td>
-                                    <td class="border px-4 py-2">
-                                    <a href="{{ route('order_details',[$order->id])}}" class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded">Order Details</a>
-                                        
-                            </td>
+                                    
+                                    <td class="border px-4 py-2">{{ $user->id }}</td>
+                                    <td class="border px-4 py-2 danger">{{ $user->name }}</td>
+                                    <td class="border px-4 py-2">{{ $user->email }}</td>
+                                    <td class="border px-4 py-2">{{ $user->created_at }}</td>
+                                   
                                 </tr>
                             @endforeach
                         </tbody>

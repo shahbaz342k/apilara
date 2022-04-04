@@ -1,21 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Orders') }}
         </h2>
     </x-slot>
 
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             @php 
 
              $role = get_user_role();
-            // $role = 'admin';
-             // $roles = Auth::user()->roles->pluck('name');
-             // var_dump($roles);
+
             @endphp
-            @if( $role == 'admin' )
+            @if( $role == 'admin')
                 <div class="p-10">
 
                   <div class="dropdown inline-block relative">
@@ -28,10 +26,11 @@
                   </div>
 
                 </div>
-            @elseif( $role == 'customer' )
+            </div>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     {{-- <x-jet-welcome /> --}}
-                    <h2 class="px-4 py-2 font-semibold text-xl text-black-800 text-center leading-tight">My Orders</h2>
+                    <h2 class="px-4 py-2 font-semibold text-xl text-black-800 text-center leading-tight">All Orders</h2>
                    {{--  {{ getAllUserOrders() }} --}}
                     <table class="table-fixed w-full">
                         <thead>
@@ -44,7 +43,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach( getAllUserOrders() as $order )
+                            @foreach( $orders as $order )
                                 <tr>
                                     @php 
                                         $order->status == 'pending';
@@ -54,7 +53,7 @@
                                     <td class="border px-4 py-2">{{ $order->grand_total }}</td>
                                     <td class="border px-4 py-2">{{ $order->created_at }}</td>
                                     <td class="border px-4 py-2">
-                                    <a href="{{ route('order_details',[$order->id])}}" class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded">Order Details</a>
+                                    <a href="{{ route('admin_orders_details',[$order->id])}}" class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded">Order Details</a>
                                         
                             </td>
                                 </tr>

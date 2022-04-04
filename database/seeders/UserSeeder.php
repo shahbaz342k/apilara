@@ -30,12 +30,12 @@ class UserSeeder extends Seeder
             $user->assignRole('customer');
         }
 
-        // $user = \App\Models\User::insert([
+        $admin_user = \App\Models\User::create(
 
-        //     ['name' => 'Admin' , 'email' => 'admin@gmail.com', 'password' => bcrypt('admin@123')],
-        //     ['name' => 'John Doe' , 'email' => 'test2@gmail.com', 'password' => bcrypt('password123')],
-        //     ['name' => 'John Ss' , 'email' => 'test3@gmail.com', 'password' => bcrypt('password123')],
-        //     ['name' => 'sdf' , 'email' => 'test4@gmail.com', 'password' => bcrypt('password123')],
-        // ]);
+            ['name' => 'Admin' , 'email' => 'admin@gmail.com', 'password' => bcrypt('admin@123')]
+           
+        );
+        $admin_user->assignRole('admin');
+
     }
 }
